@@ -50,7 +50,7 @@ export default class SearchBar extends Component{
                     <Text>{value.title}</Text>
                   </TouchableHighlight>
                 })}
-                <TouchableHighlight onPress={this.props.toggleFilter} style={{padding:20}}>
+                <TouchableHighlight onPress={this.props.cancelFilter} style={{padding:20}}>
                   <Text style={{color:'#999'}}>Cancel</Text>
                 </TouchableHighlight>
               </View>

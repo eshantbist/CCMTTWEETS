@@ -13,8 +13,6 @@ export default class PostDetail extends Component{
             tweet:this.props.initialTweetData,
             paused:false,
         }
-
-
     }
 
     render(){
@@ -24,14 +22,13 @@ export default class PostDetail extends Component{
           return(
             <View>
               <Header onClick={this.props.onBack}/>
-
+              <TouchableOpacity onPress={this.props.onBack} style={styles.goBack}>
+                  <Text style={styles.backLink}>
+                    <FontAwesome name={'chevron-left'} style={styles.chevron}/>
+                    Back
+                  </Text>
+              </TouchableOpacity>
               <ScrollView style={styles.tweet}>
-                <TouchableOpacity onPress={this.props.onBack} style={styles.goBack}>
-                    <Text style={styles.backLink}>
-                      <FontAwesome name={'chevron-left'} style={styles.chevron}/>
-                      Back
-                    </Text>
-                </TouchableOpacity>
 
                 <View style={styles.video} >
                   <Video source={{uri: "https://www.w3schools.com/html/mov_bbb.mp4"}}
@@ -59,13 +56,13 @@ export default class PostDetail extends Component{
           return(
             <View>
               <Header onClick={this.props.onBack}/>
+              <TouchableOpacity onPress={this.props.onBack} style={styles.goBack}>
+                  <Text style={styles.backLink}>
+                    <FontAwesome name={'chevron-left'} style={styles.chevron}/>
+                    Back
+                  </Text>
+              </TouchableOpacity>
               <ScrollView style={styles.tweet}>
-                <TouchableOpacity onPress={this.props.onBack} style={styles.goBack}>
-                    <Text style={styles.backLink}>
-                      <FontAwesome name={'chevron-left'} style={styles.chevron}/>
-                      Back
-                    </Text>
-                </TouchableOpacity>
                 <View style={styles.imageView}>
                   <Image
                     source={{uri:tweet.guid}}

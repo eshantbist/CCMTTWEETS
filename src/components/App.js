@@ -49,6 +49,7 @@ export default class App extends Component {
   async componentDidMount() {
     this.animatedTitle();
     const tweets = await ajax.fetchInitialTweets();
+    this.tweets=tweets;
     this.setState({tweets});
   }
 
@@ -67,10 +68,17 @@ export default class App extends Component {
   setFilter=(newValue)=>{
     this.setState({filterTweets:newValue});
     this.toggleFilter();
+    this.setState({tweets:this.tweets});
   }
 
   toggleFilter=()=>{
     this.setState({filterDisplay:!this.state.filterDisplay});
+    this.setState({tweets:[]});
+  }
+
+  cancelFilter=()=>{
+    this.toggleFilter();
+    this.setState({tweets:this.tweets});
   }
 
   render() {
@@ -89,6 +97,26 @@ export default class App extends Component {
         ?this.state.tweetsFormSearch
         :this.state.tweets;
 
+    if(this.state.filterTweets!==null)
+    {
+      return(
+        <View>
+          <Header onClick={this.unsetCurrentTweet}/>
+          <SearchBar
+              searchTweets={this.searchTweets}
+              filterTweets={this.state.filterTweets}
+              filterDisplay={this.state.filterDisplay}
+              setFilter={this.setFilter}
+              toggleFilter={this.toggleFilter}
+              cancelFilter={this.cancelFilter}
+          />
+          <View style={styles.listBackground}>
+            <TweetList filterTweets={this.state.filterTweets} tweets={tweetsToDisplay} onItemPress={this.setCurrentTweet}/>
+          </View>
+        </View>
+      );
+    }
+
     if(tweetsToDisplay.length>0)
     {
       return(
@@ -100,6 +128,7 @@ export default class App extends Component {
               filterDisplay={this.state.filterDisplay}
               setFilter={this.setFilter}
               toggleFilter={this.toggleFilter}
+              cancelFilter={this.cancelFilter}
           />
           <View style={styles.listBackground}>
             <TweetList filterTweets={this.state.filterTweets} tweets={tweetsToDisplay} onItemPress={this.setCurrentTweet}/>
