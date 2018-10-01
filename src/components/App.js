@@ -116,26 +116,6 @@ export default class App extends Component {
         </View>
       );
     }
-
-    if(tweetsToDisplay.length>0)
-    {
-      return(
-        <View>
-          <Header onClick={this.unsetCurrentTweet}/>
-          <SearchBar
-              searchTweets={this.searchTweets}
-              filterTweets={this.state.filterTweets}
-              filterDisplay={this.state.filterDisplay}
-              setFilter={this.setFilter}
-              toggleFilter={this.toggleFilter}
-              cancelFilter={this.cancelFilter}
-          />
-          <View style={styles.listBackground}>
-            <TweetList filterTweets={this.state.filterTweets} tweets={tweetsToDisplay} onItemPress={this.setCurrentTweet}/>
-          </View>
-        </View>
-      );
-    }
     return (
       <Animated.View style={[{left:this.titleXPos}, styles.container]}>
           <Text style={styles.header}>CCMT TWEETS</Text>

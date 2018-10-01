@@ -27,7 +27,6 @@ export default class TweetItem extends Component{
 
     render(){
         const { tweet }=this.props;
-        console.log(this.props.filter)
 
         if(this.state.filter==='All')
         {
