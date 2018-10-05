@@ -18,9 +18,9 @@ export default class SearchBar extends Component{
 
     search=this.props.searchTweets;
     handleChange=(searchTerm)=>{
-        this.setState({searchTerm},()=>{
-          this.search(this.state.searchTerm);
-        });
+      this.setState({searchTerm},()=>{
+        this.search(this.state.searchTerm);
+      });
     }
 
     set=this.props.setFilter;
@@ -68,13 +68,12 @@ export default class SearchBar extends Component{
                 <TextInput
                     placeholder='Search...'
                     value = {this.state.searchTerm}
-                    multiline={this.state.multiLine}
+                    multiline={false}
                     underlineColorAndroid="transparent"
                     style={styles.input}
                     onChangeText={this.handleChange}
                 />
             </View>
-
           </View>
         );
     }
@@ -84,15 +83,16 @@ const styles=StyleSheet.create({
     input:{
         fontFamily:"Times New Roman",
         fontSize:20,
-        padding:7,
+        padding:10,
         textAlign:'left',
-        marginTop:8,
+
+        marginRight:40,
     },
     mainContainer:{
       flexDirection:'row',
       justifyContent:'space-between',
       backgroundColor:'#e6e6e6',
-      paddingBottom:10
+      paddingBottom:15
     },
     rightContainer:{
       flexDirection:'row',
@@ -101,17 +101,16 @@ const styles=StyleSheet.create({
       marginRight:10
     },
     searchIcon:{
-      padding: Platform.OS === 'ios' ?8:5,
-      margin: Platform.OS === 'ios' ? 5:8,
-      width: 30,
-      fontSize:20,
+      marginTop: Platform.OS === 'ios' ? 12:8,
+      marginLeft:Platform.OS === 'ios' ? 12:8,
+      fontSize:15,
       color:'#3366cc'
     },
     leftContainer:{
       backgroundColor:'#d1e0e0',
       borderRadius:8,
       marginLeft:10,
-      padding:15,
+      padding:10,
     },
     filter:{
       fontFamily:"Times New Roman",
@@ -125,6 +124,6 @@ const styles=StyleSheet.create({
       padding:20,
       alignItems:'center',
       marginTop:Platform.OS === 'ios' ?70:110,
-    }
+    },
 
 });

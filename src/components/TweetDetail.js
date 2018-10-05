@@ -55,7 +55,7 @@ export default class PostDetail extends Component{
         {
           return(
             <View>
-              <Header onClick={this.props.onBack}/>
+              {/*<Header onClick={this.props.onBack}*/}
               <TouchableOpacity onPress={this.props.onBack} style={styles.goBack}>
                   <Text style={styles.backLink}>
                     <FontAwesome name={'chevron-left'} style={styles.chevron}/>
@@ -84,7 +84,7 @@ export default class PostDetail extends Component{
 
 const styles = StyleSheet.create({
     tweet: {
-      marginBottom: 70,
+      marginBottom: 120,
     },
     backLink:{
       marginBottom:5,

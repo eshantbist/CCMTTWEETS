@@ -5,6 +5,8 @@ import TweetList from './TweetList';
 import TweetDetail from './TweetDetail';
 import SearchBar from './SearchBar';
 import Header from './Header';
+import { AuthenticationDetails,CognitoUserPool, CognitoUserAttribute, CognitoUser } from 'amazon-cognito-identity-js';
+
 
 export default class App extends Component {
 
@@ -47,10 +49,13 @@ export default class App extends Component {
   };
 
   async componentDidMount() {
+    console.log("Hello JWT::"+this.props.token);
     this.animatedTitle();
-    const tweets = await ajax.fetchInitialTweets();
+    const tweets = await ajax.fetchInitialTweets(this.props.token);
     this.tweets=tweets;
     this.setState({tweets});
+
+
   }
 
   searchTweets = async (searchTerm)=> {
@@ -101,7 +106,7 @@ export default class App extends Component {
     {
       return(
         <View>
-          <Header onClick={this.unsetCurrentTweet}/>
+          {/*<Header onClick={this.unsetCurrentTweet}/>*/}
           <SearchBar
               searchTweets={this.searchTweets}
               filterTweets={this.state.filterTweets}

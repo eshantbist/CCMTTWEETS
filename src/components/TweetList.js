@@ -28,6 +28,6 @@ export default class TweetList extends Component{
 const styles=StyleSheet.create({
     list:{
         width:'100%',
-        marginBottom:Platform.OS==='ios'?265:205,
+        marginBottom:Platform.OS==='ios'?255:205,
     },
 });
