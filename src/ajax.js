@@ -3,7 +3,7 @@ const apiHost='https://staging.chinmayamission.com';
 export default{
     async fetchInitialTweets(){
         try {
-            const response = await fetch(apiHost+'/wp-json/gcmw/v1/tweet-2');
+            const response = await fetch(apiHost+'/wp-json/wp/v2/tweet');
             const responseJson = await response.json();
             return responseJson;
           } catch (error) {
@@ -13,7 +13,7 @@ export default{
 
     async fetchTweetsSearchResults(searchTerm){
      try {
-         const response = await fetch(apiHost+'/wp-json/gcmw/v1/tweet-2?searchTerm='+searchTerm);
+         const response = await fetch(apiHost+'/wp-json/wp/v2/tweet2?searchTerm='+searchTerm);
          const responseJson = await response.json();
          return responseJson;
        } catch (error) {

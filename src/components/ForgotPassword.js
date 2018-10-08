@@ -1,18 +1,27 @@
 import React, {Component} from 'react';
-import {Button,TextInput,Platform, StyleSheet, Text, View} from 'react-native';
+import {TouchableOpacity, Button,TextInput,Platform, StyleSheet, Text, View,Modal} from 'react-native';
 import { Auth } from 'aws-amplify';
 import Header from './Header';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import ChangePassword from './ChangePassword';
 
 export default class ForgotPassword extends Component {
   state = {
     username:'',
-    code:'',
-    confirmCode:'',
     shouldVerify:false,
+    modalVisibility:false,
+    verifiedClicked:false,
   }
   onChangeText(key,value) {
     this.setState({ [key]:value })
+  }
+  closeModal=()=>{
+    setInterval(() => {
+        this.setState({ modalVisibility: !this.state.modalVisibility })
+      }, 2000)
+  }
+  isVerified(){
+    this.props.screenProps.verified(true);
   }
 
   forgotPassword(){
@@ -20,41 +29,31 @@ export default class ForgotPassword extends Component {
     Auth.forgotPassword(this.state.username)
     .then(data => {
       console.log(data);
-      this.setState({shouldVerify:!this.state.shouldVerify});
+      this.setState({verifiedClicked:!this.state.verifiedClicked});
     })
-    .catch(err => console.log(err));
-
-    Auth.forgotPasswordSubmit(this.state.username, this.state.code, new_password)
-    .then(data => console.log(data))
-    .catch(err => console.log(err));
+    .catch(err=>{
+      console.log('err:',err)
+      alert(err.message || JSON.stringify(err));
+    })
   }
 
   render() {
-    if(this.state.shouldVerify===true){
+    if(this.state.verifiedClicked===true){
       return (
-        <View style={styles.container}>
-          <FontAwesome name={'user-circle'} color={'#333333'} size={100} style={styles.userIcon}/>
-          <TextInput
-            placeholder='Verification Code'
-            onChangeText={value => this.onChangeText('code',value)}
-            secureTextEntry={ true }
-            style={styles.input}
-          />
-          <Button title='Change Password' onPress={this.forgotPassword.bind(this)}/>
-
-        </View>
+        <ChangePassword username={this.state.username} screenProps={{isVerified:this.isVerified.bind(this)}}/>
       );
     }
       return (
         <View style={styles.container}>
           <FontAwesome name={'user-circle'} color={'#333333'} size={100} style={styles.userIcon}/>
-          <TextInput
-            placeholder='Username'
-            onChangeText={value => this.onChangeText('username',value)}
-            style={styles.input}
-          />
-          <Button title='Change Password' onPress={this.forgotPassword.bind(this)}/>
-
+          <View>
+            <TextInput
+              placeholder='Username'
+              onChangeText={value => this.onChangeText('username',value)}
+              style={styles.input}
+            />
+            <Button title='Verify and Change Password' onPress={this.forgotPassword.bind(this)}/>
+          </View>
         </View>
       );
   }
@@ -62,10 +61,9 @@ export default class ForgotPassword extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    backgroundColor: '#F5FCFF',
+    marginTop:200,
+    alignItems:'stretch',
     height:'100%',
-    flexDirection:'column',
   },
   input: {
     height: 50,
@@ -76,6 +74,5 @@ const styles = StyleSheet.create({
   },
   userIcon:{
     marginHorizontal:130,
-    marginBottom:20,
   }
 });

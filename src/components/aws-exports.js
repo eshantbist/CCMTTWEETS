@@ -1,8 +1,8 @@
 const config =  {
-  identityPoolId:'us-east-1:1770794e-a627-4028-b3a7-ada509a64983',
+  identityPoolId:'us-east-1:6fad4bf2-7062-4763-bef6-f2f83ff1353d',
   region:'us-east-1',
-  userPoolId:'us-east-1_P5KYxw7mb',
-  userPoolWebClientId:'6v7if32kkonnlop7k9smi1v60h',
+  userPoolId:'us-east-1_rNybqJGJi',
+  userPoolWebClientId:'1d8nuq35qs58vd0411a6l11l8n',
 }
 
 export default config

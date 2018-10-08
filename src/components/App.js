@@ -5,8 +5,6 @@ import TweetList from './TweetList';
 import TweetDetail from './TweetDetail';
 import SearchBar from './SearchBar';
 import Header from './Header';
-import { AuthenticationDetails,CognitoUserPool, CognitoUserAttribute, CognitoUser } from 'amazon-cognito-identity-js';
-
 
 export default class App extends Component {
 
@@ -51,7 +49,8 @@ export default class App extends Component {
   async componentDidMount() {
     console.log("Hello JWT::"+this.props.token);
     this.animatedTitle();
-    const tweets = await ajax.fetchInitialTweets(this.props.token);
+    const tweets = await ajax.fetchInitialTweets();
+    console.log(tweets);
     this.tweets=tweets;
     this.setState({tweets});
 

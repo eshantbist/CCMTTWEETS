@@ -17,11 +17,11 @@ export default class PostDetail extends Component{
 
     render(){
         const { tweet }=this.state;
-        if(tweet.videoUrl!=='')
+        if(tweet.video_url!=='')
         {
           return(
             <View>
-              <Header onClick={this.props.onBack}/>
+              {/*<Header onClick={this.props.onBack}/>*/}
               <TouchableOpacity onPress={this.props.onBack} style={styles.goBack}>
                   <Text style={styles.backLink}>
                     <FontAwesome name={'chevron-left'} style={styles.chevron}/>
@@ -51,7 +51,7 @@ export default class PostDetail extends Component{
             </View>
           );
         }
-        if(tweet.videoUrl==='')
+        if(tweet.video_url==='')
         {
           return(
             <View>
@@ -65,14 +65,14 @@ export default class PostDetail extends Component{
               <ScrollView style={styles.tweet}>
                 <View style={styles.imageView}>
                   <Image
-                    source={{uri:tweet.guid}}
+                    source={{uri:tweet.featured_image}}
                     style={styles.image}/>
                 </View>
                   <View style={styles.titleView}>
-                    <Text style={styles.title}>{tweet.post_title}</Text>
+                    <Text style={styles.title}>{tweet.title.rendered}</Text>
                   </View>
                 <View style={styles.content}>
-                  <Text style={styles.contentMatter}>{tweet.post_content}</Text>
+                  <Text style={styles.contentMatter}>{tweet.content}</Text>
                 </View>
               </ScrollView>
             </View>
@@ -84,7 +84,7 @@ export default class PostDetail extends Component{
 
 const styles = StyleSheet.create({
     tweet: {
-      marginBottom: 120,
+      marginBottom: 240,
     },
     backLink:{
       marginBottom:5,

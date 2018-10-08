@@ -14,7 +14,7 @@ export default class TweetItem extends Component{
       }
     }
     componentDidMount(){
-        const slicedDateTime=this.props.tweet.post_date.split(" ");
+        const slicedDateTime=this.props.tweet.date.split("T");
         const sliceDate=slicedDateTime[0].split('-').reverse();
         const newData=sliceDate.splice(1,0,"-");
         const otherNewData=sliceDate.splice(3,0,"-");
@@ -30,17 +30,17 @@ export default class TweetItem extends Component{
 
         if(this.state.filter==='All')
         {
-          if(tweet.videoUrl==='')
+          if(tweet.video_url==='')
           {
             return(
                 <TouchableOpacity onPress={this.handlePress} style={styles.tweet}>
                     <View style={styles.info}>
-                      <Text style={styles.title}>{tweet.post_title}</Text>
+                      <Text style={styles.title}>{tweet.title.rendered}</Text>
                       <Text style={styles.date}>{this.state.slicedDate}</Text>
                       <Image
-                        source={{uri:tweet.guid}}
+                        source={{uri:tweet.featured_image}}
                         style={{height:270, width:'100%'}}/>
-                      <Text style={styles.content}>{tweet.post_content.slice(0,100)}</Text>
+                      <Text style={styles.content}>{tweet.content.slice(0,100)}</Text>
                     </View>
                     <View style={styles.readMore}>
                       <Text style={{color:'#999999'}} >Read More...</Text>
@@ -48,7 +48,7 @@ export default class TweetItem extends Component{
                 </TouchableOpacity>
             );
           }
-          if(tweet.videoUrl!=='')
+          if(tweet.video_url!=='')
           {
             return(
                 <TouchableOpacity onPress={this.handlePress} style={styles.tweet}>
@@ -72,11 +72,11 @@ export default class TweetItem extends Component{
         }
         if(this.props.filter==='Video')
         {
-          if(tweet.videoUrl==='')
+          if(tweet.video_url==='')
           {
             return(null);
           }
-          if(tweet.videoUrl!=='')
+          if(tweet.video_url!=='')
           {
             return(
                 <TouchableOpacity onPress={this.handlePress} style={styles.tweet}>
@@ -100,7 +100,7 @@ export default class TweetItem extends Component{
         }
         if(this.props.filter==='Post')
         {
-          if(tweet.videoUrl==='')
+          if(tweet.video_url==='')
           {
             return(
                 <TouchableOpacity onPress={this.handlePress} style={styles.tweet}>
@@ -118,7 +118,7 @@ export default class TweetItem extends Component{
                 </TouchableOpacity>
             );
           }
-          if(tweet.videoUrl!=='')
+          if(tweet.video_url!=='')
           {
             return(null);
           }

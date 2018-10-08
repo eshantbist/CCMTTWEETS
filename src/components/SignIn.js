@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Button,TextInput,Platform, StyleSheet, Text, View} from 'react-native';
+import {Modal,TouchableOpacity,Button,TextInput,Platform, StyleSheet, Text, View} from 'react-native';
 import { Auth } from 'aws-amplify';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import ForgotPassword from './ForgotPassword';
 import { AuthenticationDetails,CognitoUserPool, CognitoUserAttribute, CognitoUser } from 'amazon-cognito-identity-js';
 
 var token;
@@ -11,6 +12,9 @@ export default class AppStackNavigator extends Component {
     password:'',
     confirmCode:'',
     user:{},
+    ForgotPasswordClicked:false,
+    modalVisibility:false,
+    verifiedClicked:false,
   }
   onChangeText(key,value) {
     this.setState({ [key]:value })
@@ -22,8 +26,8 @@ export default class AppStackNavigator extends Component {
       this.setState({user});
       console.log('successful signedIn')
       const poolData = {
-            UserPoolId : 'us-east-1_P5KYxw7mb',
-            ClientId : '6v7if32kkonnlop7k9smi1v60h'
+            UserPoolId : 'us-east-1_rNybqJGJi',
+            ClientId : '1d8nuq35qs58vd0411a6l11l8n'
         };
         var authenticationData = {
             Username : username,
@@ -42,9 +46,9 @@ export default class AppStackNavigator extends Component {
               AWS.config.region = 'us-east-1';
 
               AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                  IdentityPoolId : 'us-east-1:1770794e-a627-4028-b3a7-ada509a64983',
+                  IdentityPoolId : 'us-east-1:6fad4bf2-7062-4763-bef6-f2f83ff1353d',
                   Logins : {
-                      'cognito-idp.us-east-1.amazonaws.com/us-east-1_P5KYxw7mb': result.getIdToken().getJwtToken()
+                      'cognito-idp.us-east-1.amazonaws.com/us-east-1_rNybqJGJi': result.getIdToken().getJwtToken()
                   }
               });
               AWS.config.credentials.refresh((error) => {
@@ -52,7 +56,6 @@ export default class AppStackNavigator extends Component {
                        console.error(error);
                   } else {
                        console.log('Successfully logged!');
-                       console.log(result.getIdToken().getJwtToken());
                        token=result.getIdToken().getJwtToken();
                   }
               });
@@ -63,7 +66,7 @@ export default class AppStackNavigator extends Component {
           },
 
       });
-      this.props.screenProps.authenticate(true,false,token);
+      this.props.screenProps.authenticate(true,false,token,username,password);
     })
     .catch(err => {
       //this.props.screenProps.authenticate(false,true)
@@ -72,12 +75,35 @@ export default class AppStackNavigator extends Component {
   }
 
   forgotPassword(){
-    this.props.screenProps.authenticate(false,true);
+    this.setState({ForgotPasswordClicked:!this.state.ForgotPasswordClicked})
+  }
+
+  verified(verifiedClicked){
+    this.setState({verifiedClicked});
+    this.setState({modalVisibility:true})
   }
 
   render() {
+    if(this.state.ForgotPasswordClicked && this.state.verifiedClicked===false){
+        return <ForgotPassword screenProps={{verified:this.verified.bind(this)}} />
+    }
     return (
       <View style={styles.container}>
+        <Modal visible={this.state.modalVisibility} animationType={"slide"} transparent={true}>
+            <View style={{ margin: 20, padding: 20,
+              backgroundColor: '#efefef',
+              bottom: 250,
+              left: 20,
+              right: 20,
+              alignItems: 'center',
+              position: 'absolute' }}>
+              <Text style={{fontSize:10,  color:'blue'}}>Password Changed Successfully</Text>
+              <TouchableOpacity onPress={() => {
+                this.setState({modalVisibility:!this.state.modalVisibility});}} style={{ paddingTop: 10, paddingBottom: 10}}>
+                    <Text >Cancel</Text>
+              </TouchableOpacity>
+            </View>
+        </Modal>
         <FontAwesome name={'user-circle'} color={'#333333'} size={100} style={styles.userIcon}/>
         <TextInput
           placeholder='Username'

@@ -5,28 +5,29 @@ import Amplify, { Auth } from 'aws-amplify';
 import App from './App';
 import config from './aws-exports';
 import Header from './Header';
-import ForgotPassword from './ForgotPassword';
 Amplify.configure(config)
 
 export default class AppStackNavigator extends Component {
   state = {
     isAuthenticated:false,
-    signUpClicked:false,
+    ForgotPasswordClicked:false,
     token:'',
+    username:'',
+    password:'',
   }
 
-  authenticate(isAuthenticated,signUpClicked,token){
+  authenticate(isAuthenticated,ForgotPasswordClicked,token,username,password){
     this.setState({isAuthenticated});
-    this.setState({signUpClicked});
+    this.setState({ForgotPasswordClicked});
     this.setState({token});
+    this.setState({username});
+    this.setState({password});
   }
 
-  signedUp(signUpClicked){
-    this.setState({signUpClicked});
-  }
   render() {
 
     if(this.state.isAuthenticated && this.state.token){
+      console.log(this.state.username);
       return (
         <View>
           <Header
@@ -35,11 +36,11 @@ export default class AppStackNavigator extends Component {
               authenticate:this.authenticate.bind(this),
             }}
           />
-          <App token={this.state.token}/>
+          <App token={this.state.token} username={this.state.username} password={this.state.password}/>
         </View>
       );
     }
-    if(this.state.signUpClicked){
+    if(this.state.ForgotPasswordClicked){
       return (
         <View>
           <Header
@@ -48,14 +49,13 @@ export default class AppStackNavigator extends Component {
               authenticate:this.authenticate.bind(this)
             }}
           />
-          <ForgotPassword/>
         </View>
       );
     }
     return (
       <View style={styles.container}>
         <Header
-          authentication={this.state.isAuthenticated}
+          authentication={false}
           screenProps={{
             authenticate:this.authenticate.bind(this),
           }}
